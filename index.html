@@ -3,82 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intergration Task</title>
+    <title>API Projects Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-li {
-    list-style: none;
-}
-
-body{
-    font-family: sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #28223f ;
-    /* height: 100vh; */
-}
-.card-container{
-    margin: 50px;
-    background: #231e39 ;
-    border-radius: 10px;
-    box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.75);
-    color:#b3b8cd ;
-    text-align: center;
-    padding: 20px;
-}
-
-.round{
-    border: 1px solid #03bfcb;
-    border-radius: 50%;
-    padding: 7px;
-}
-.name-container{
-    margin: 10px 0;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        .project-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: #2c3e50;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            background-color: #e9ecef;
+        }
+        .project-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #3498db;
+        }
+        .project-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .project-desc {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        @media (max-width: 600px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
-
 <body>
-    <ul class="list-container">
-
-    </ul>
-    <script>
-
-        const apiKey = "reqres-free-v1" ;
-const apiUrl = 'https://reqres.in/api/users?page=1  ' ;
-
-fetch(apiUrl , {
-   headers: {
-        'x-api-key': apiKey,
-        'Accept': 'application/json'
-      }
-})
-.then(res => res.json())
-.then(json =>{
-    console.log(json);
-    const markup = json.data.map(element => {
-    return `
-    <li class = "card-container">
-    <div class = "image-container">
-    <img class= "round" src ="${element.avatar}" alt="avatar">    
+    <div class="container">
+        <h1><i class="fas fa-project-diagram"></i> API Projects Hub</h1>
+        <div class="projects-grid">
+            
+             <a href="userlist.html" class="project-card">
+                <div class="project-icon"><i class="fas fa-user-lock"></i></div>
+                <div class="project-title">User List</div>
+                <div class="project-desc">User management</div>
+            </a>
+            <a href="loginform.html" class="project-card">
+                <div class="project-icon"><i class="fas fa-sign-in-alt"></i></div>
+                <div class="project-title">Login Form</div>
+                <div class="project-desc">Styled form example(check console)</div>
+            </a>
+             <a href="dagjokes.html" class="project-card">
+                <div class="project-icon"><i class="fas fa-laugh-squint"></i></div>
+                <div class="project-title">Dad Jokes</div>
+                <div class="project-desc">Random joke generator</div>
+            </a>
+             <a href="weatherdashboard.html" class="project-card">
+                <div class="project-icon"><i class="fas fa-cloud-sun"></i></div>
+                <div class="project-title">Weather Dashboard</div>
+                <div class="project-desc">City weather lookup</div>
+            
+            </a>
+            <a href="cryptotracker.html" class="project-card">
+                <div class="project-icon"><i class="fas fa-coins"></i></div>
+                <div class="project-title">Crypto Tracker</div>
+                <div class="project-desc">Real-time cryptocurrency prices</div>
+            </a>
+           
+            <a href="githubreposearch.html" class="project-card">
+                <div class="project-icon"><i class="fab fa-github"></i></div>
+                <div class="project-title">GitHub Search</div>
+                <div class="project-desc">Find repositories</div>
+            </a>
+            
+           
+            <a href="authflow.html" class="project-card">
+                <div class="project-icon"><i class="fas fa-user-lock"></i></div>
+                <div class="project-title">Auth Flow</div>
+                <div class="project-desc">Token-based authentication (still in progress) </div>
+            </a>
+        </div>
     </div>
-    <div class = "name-container">
-     <span class = "firstName"> ${element.first_name}</span>
-     <span class = "lastName">${element.last_name}</span>
-    </div>
-    <p class = "email"> ${element.email}</p> 
-    </li>
-     `
-     })
-     document.querySelector('.list-container').innerHTML = markup.join(''); 
-    //  .join method creates and returns a new string  by concatenating all the elements of an array
-})
-    </script>
 </body>
 </html>

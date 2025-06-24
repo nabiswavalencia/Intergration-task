@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Repository Search</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+      body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 2rem;
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+h1 {
+    color: #24292e;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+h1 i {
+    margin-right: 10px;
+}
+
+.search-container {
+    display: flex;
+    gap: 0.5rem; /* Add gap between buttons */
+    margin-bottom: 2rem;
+}
+
+#searchBtn, #clearBtn {
+    padding: 0 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#clearBtn {
+    background-color: #f6f8fa;
+    color: #24292e;
+    border: 1px solid #d1d5da;
+}
+
+#clearBtn:hover {
+    background-color: #eaecef;
+}
+
+/* Make search button slightly different */
+#searchBtn {
+    background-color: #24292e;
+    color: white;
+}
+
+#searchBtn:hover {
+    background-color: #2d3338;
+}
+
+#searchInput {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 6px 0 0 6px;
+    font-size: 1rem;
+    outline: none;
+}
+
+/* #searchBtn {
+    padding: 0 1.5rem;
+    background-color: #24292e;
+    color: white;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+} */
+
+#searchBtn:hover {
+    background-color: #2d3338;
+}
+
+.results-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.repo-card {
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    padding: 1.5rem;
+    transition: transform 0.2s;
+}
+
+.repo-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.repo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.repo-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #0366d6;
+    text-decoration: none;
+}
+
+.repo-name:hover {
+    text-decoration: underline;
+}
+
+.repo-stats {
+    display: flex;
+    gap: 1rem;
+}
+
+.repo-stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #586069;
+    font-size: 0.9rem;
+}
+
+.repo-description {
+    color: #24292e;
+    margin-bottom: 1rem;
+}
+
+.repo-footer {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: #586069;
+}
+
+.repo-language {
+    display: flex;
+    align-items: center;
+}
+
+.language-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.loading {
+    display: none;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #0366d6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.error-message {
+    color: #cb2431;
+    text-align: center;
+    padding: 1rem;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .search-container {
+        flex-direction: column;
+        
+    }
+    
+    #searchInput {
+        border-radius: 6px;
+        margin-bottom: 0.5rem;
+    }
+    
+    #searchBtn {
+        border-radius: 6px;
+        padding: 0.8rem;
+        justify-content: center;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fab fa-github"></i> GitHub Repository Search</h1>
+        <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search repositories...">
+    <button id="searchBtn"><i class="fas fa-search"></i> Search</button>
+    <button id="clearBtn"><i class="fas fa-times"></i> Clear</button>
+</div>
+        <div id="resultsContainer" class="results-container">
+            <!-- Results will be displayed here -->
+        </div>
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+        </div>
+    </div>
+    <script >
+
+        document.getElementById('searchBtn').addEventListener('click', searchRepositories);
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        searchRepositories();
+    }
+});
+// Add this after the search button event listener
+document.getElementById('clearBtn').addEventListener('click', clearSearch);
+
+function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('resultsContainer').innerHTML = '';
+    document.getElementById('searchInput').focus(); // Put cursor back in search box
+}
+async function searchRepositories() {
+    const query = document.getElementById('searchInput').value.trim();
+    const resultsContainer = document.getElementById('resultsContainer');
+    const loading = document.getElementById('loading');
+    
+    if (!query) {
+        resultsContainer.innerHTML = '<div class="error-message">Please enter a search term</div>';
+        return;
+    }
+    
+    // Clear previous results and show loading
+    resultsContainer.innerHTML = '';
+    loading.style.display = 'flex';
+    
+    try {
+        const response = await fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(query)}&sort=stars&order=desc`);
+        
+        if (!response.ok) {
+            throw new Error(`GitHub API error: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        displayResults(data.items);
+    } catch (error) {
+        console.error('Error:', error);
+        resultsContainer.innerHTML = `<div class="error-message">Error: ${error.message}</div>`;
+    } finally {
+        loading.style.display = 'none';
+    }
+}
+
+function displayResults(repositories) {
+    const resultsContainer = document.getElementById('resultsContainer');
+    
+    if (!repositories || repositories.length === 0) {
+        resultsContainer.innerHTML = '<div class="error-message">No repositories found</div>';
+        return;
+    }
+    
+    repositories.forEach(repo => {
+        const repoCard = document.createElement('div');
+        repoCard.className = 'repo-card';
+        
+        // Get language color if available
+        const languageColor = repo.language ? getLanguageColor(repo.language) : '#ccc';
+        
+        repoCard.innerHTML = `
+            <div class="repo-header">
+                <a href="${repo.html_url}" target="_blank" class="repo-name">${repo.full_name}</a>
+                <div class="repo-stats">
+                    <span class="repo-stat"><i class="fas fa-star"></i> ${repo.stargazers_count.toLocaleString()}</span>
+                    <span class="repo-stat"><i class="fas fa-code-branch"></i> ${repo.forks_count.toLocaleString()}</span>
+                </div>
+            </div>
+            ${repo.description ? `<p class="repo-description">${repo.description}</p>` : ''}
+            <div class="repo-footer">
+                ${repo.language ? `
+                <span class="repo-language">
+                    <span class="language-color" style="background-color: ${languageColor}"></span>
+                    ${repo.language}
+                </span>
+                ` : ''}
+                <span><i class="fas fa-calendar-alt"></i> Updated ${new Date(repo.updated_at).toLocaleDateString()}</span>
+            </div>
+        `;
+        
+        resultsContainer.appendChild(repoCard);
+    });
+}
+
+// Simple language color mapping (GitHub uses more sophisticated colors)
+function getLanguageColor(language) {
+    const colors = {
+        'JavaScript': '#f1e05a',
+        'TypeScript': '#3178c6',
+        'Python': '#3572A5',
+        'Java': '#b07219',
+        'C++': '#f34b7d',
+        'Ruby': '#701516',
+        'PHP': '#4F5D95',
+        'Go': '#00ADD8',
+        'Swift': '#ffac45',
+        'Kotlin': '#A97BFF'
+    };
+    
+    return colors[language] || '#ccc';
+}
+    </script>
+</body>
+</html>

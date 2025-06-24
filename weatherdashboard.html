@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    
+    <style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.search-container {
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+
+#cityInput {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+    font-size: 1rem;
+    outline: none;
+}
+
+#searchBtn {
+    padding: 0.8rem 1.5rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+#searchBtn:hover {
+    background-color: #2980b9;
+}
+
+.weather-info {
+    display: none;
+}
+
+.weather-card {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.weather-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+#weatherIcon {
+    width: 60px;
+    height: 60px;
+}
+
+#temperature {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.description {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin-bottom: 1rem;
+}
+
+.details {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+
+.details div {
+    display: flex;
+    flex-direction: column;
+}
+
+.details span:first-child {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.details span:last-child {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 1.1rem;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Dashboard</h1>
+        <div class="search-container">
+            <input type="text" id="cityInput" placeholder="Enter city name">
+            <button id="searchBtn">Get Weather</button>
+        </div>
+        <div id="weatherInfo" class="weather-info">
+            <div class="weather-card">
+                <h2 id="cityName">City Name</h2>
+                <div class="weather-main">
+                    <img id="weatherIcon" src="" alt="Weather icon">
+                    <span id="temperature">--°C</span>
+                </div>
+                <div id="weatherDescription" class="description">Weather description</div>
+                <div class="details">
+                    <div><span>Humidity:</span> <span id="humidity">--%</span></div>
+                    <div><span>Wind:</span> <span id="wind">-- km/h</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        const apiUrl = 'https://reqres.in/api/users' ;
+const API_KEY = '41d25a0be5c94a07711c6d02b71de2ec';
+
+document.getElementById('searchBtn').addEventListener('click', getWeather);
+
+function getWeather() {
+    const city = document.getElementById('cityInput').value.trim();
+    
+    if (!city) {
+        alert('Please enter a city name');
+        return;
+    }
+//  fetch(apiUrl , {
+//     method: 'GET',
+//     body:data,
+//     headers: {
+//         'x-api-key': API_KEY,
+        
+//       }
+// }) 
+   fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('City not found');
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayWeather(data);
+        })
+        .catch(error => {
+            alert(error.message);
+            console.error('Error:', error);
+        });
+}
+
+function displayWeather(data) {
+    const weatherInfo = document.getElementById('weatherInfo');
+    const iconCode = data.weather[0].icon;
+    
+    document.getElementById('cityName').textContent = `${data.name}, ${data.sys.country}`;
+    document.getElementById('temperature').textContent = `${Math.round(data.main.temp)}°C`;
+    document.getElementById('weatherDescription').textContent = data.weather[0].description;
+    document.getElementById('humidity').textContent = `${data.main.humidity}%`;
+    document.getElementById('wind').textContent = `${Math.round(data.wind.speed * 3.6)} km/h`;
+    document.getElementById('weatherIcon').src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+    document.getElementById('weatherIcon').alt = data.weather[0].main;
+    
+    weatherInfo.style.display = 'block';
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <style>
+        *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+body{
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #28223f ;
+    /* height: 100vh; */
+}
+.card-container{
+    margin: 50px;
+    background: #231e39 ;
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.75);
+    color:#b3b8cd ;
+    text-align: center;
+    padding: 20px;
+}
+
+.round{
+    border: 1px solid #03bfcb;
+    border-radius: 50%;
+    padding: 7px;
+}
+.name-container{
+    margin: 10px 0;
+}
+    </style>
+</head>
+
+<body>
+    <ul class="list-container">
+
+    </ul>
+    <script>
+
+        const apiKey = "reqres-free-v1" ;
+const apiUrl = 'https://reqres.in/api/users?page=1  ' ;
+
+fetch(apiUrl , {
+   headers: {
+        'x-api-key': apiKey,
+        'Accept': 'application/json'
+      }
+})
+.then(res => res.json())
+.then(json =>{
+    console.log(json);
+    const markup = json.data.map(element => {
+    return `
+    <li class = "card-container">
+    <div class = "image-container">
+    <img class= "round" src ="${element.avatar}" alt="avatar">    
+    </div>
+    <div class = "name-container">
+     <span class = "firstName"> ${element.first_name}</span>
+     <span class = "lastName">${element.last_name}</span>
+    </div>
+    <p class = "email"> ${element.email}</p> 
+    </li>
+     `
+     })
+     document.querySelector('.list-container').innerHTML = markup.join(''); 
+    //  .join method creates and returns a new string  by concatenating all the elements of an array
+})
+    </script>
+</body>
+</html>

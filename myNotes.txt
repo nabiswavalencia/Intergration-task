@@ -1,0 +1,274 @@
+1. HTTP Methods
+
+Key Concepts:
+
+    GET: Retrieve data (read-only)
+ Should never modify server state
+ Parameters go in URL (visible in browser history)
+ Cacheable by default
+    eg.  GET (Cryptocurrency Tracker)
+    fetch('https://api.coingecko.com/api/v3/coins/markets?...')
+
+    // Always check if request succeeded
+  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+  return await response.json();
+
+    POST: Create new resources
+Request body contains data
+Returns 201 (Created) on success
+Often returns Location header with new resource URL
+    
+    eg POST (Authentication)
+    fetch('https://reqres.in/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })  credentials
+    })
+        
+    PUT: Update existing resources
+
+    eg // Update user profile
+async function updateUser(userId, data) {
+  const response = await fetch(`https://api.example.com/users/${userId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(data)
+  });
+  
+  if (response.status === 409) {
+    throw new Error('Version conflict');
+  }
+  
+  return response.status; // Often returns 204 No Content
+}
+
+    DELETE: Remove resources
+    eg
+async function deletePost(postId) {
+  const response = await fetch(`https://api.example.com/posts/${postId}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  
+  if (response.status === 403) {
+    throw new Error('Permission denied');
+  }
+  
+  return response.status; // Usually 204 No Content
+}
+
+2. Headers & Parameters
+
+Key Concepts:
+
+Headers for metadata (auth, content-type)
+eg const headers = {
+  'Content-Type': 'application/json', // Required for JSON bodies
+  'Accept': 'application/json', // Ask for JSON response
+  'Authorization': `Bearer ${token}`, // Auth token
+  'Cache-Control': 'no-cache', // Bypass cache
+  'If-Match': 'version-hash' // For optimistic concurrency
+};
+
+Query params for filtering GET requests
+eg ?vs_currency=usd&order=market_cap_desc&per_page=20 (Crypto API)
+
+Dynamic Headers Example:
+javascript
+
+function buildHeaders(authRequired = true) {
+  const headers = { 'Content-Type': 'application/json' };
+  
+  if (authRequired) {
+    const token = localStorage.getItem('authToken');
+    if (!token) throw new Error('No authentication token');
+    headers.Authorization = `Bearer ${token}`;
+  }
+  
+  return headers;
+}
+
+
+3. Authentication
+
+Key Concepts:
+
+    API keys in headers
+    Token-based auth (JWT)
+
+eg // API Key (CoinGecko - though not shown, would go in headers)
+headers: { 'x-cg-api-key': 'YOUR_KEY' }
+
+// Token Storage (Auth Flow)
+localStorage.setItem('authToken', data.token);
+const token = localStorage.getItem('authToken');
+
+4. Error Handling
+
+Key Concepts:
+
+    Check response.ok status
+    Try/catch blocks
+    User feedback
+eg 
+// Basic error handling
+if (!response.ok) throw new Error('Failed')
+try { /* request */ } 
+catch (err) { alert(err.message) }
+
+// HTTP Status Codes
+if (response.status === 401) // Unauthorized
+if (response.status === 404) // Not found
+if (response.status === 500) // Internal server error 
+
+
+Error Hierarchy:
+javascript
+
+class ApiError extends Error {
+  constructor(message, statusCode, details) {
+    super(message);
+    this.statusCode = statusCode;
+    this.details = details;
+  }
+}
+
+async function fetchWithHandling() {
+  try {
+    const response = await fetch('/api/data');
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new ApiError(
+        errorData.message || 'Request failed',
+        response.status,
+        errorData.details
+      );
+    }
+    
+    return await response.json();
+    
+  } catch (error) {
+    if (error instanceof TypeError) {
+      // Network error
+      showToast('Network connection failed');
+    } else if (error instanceof ApiError) {
+      // Server returned error status
+      handleApiError(error);
+    } else {
+      // Unexpected error
+      logErrorToService(error);
+    }
+    throw error; // Re-throw for further handling
+  }
+}
+
+5. Loading States
+
+Key Concepts:
+
+    Visual feedback during async ops
+    Toggle UI elements
+eg javascript
+
+// Show/hide loader
+loading.style.display = 'flex' // Before fetch
+loading.style.display = 'none' // In finally
+
+Multi-Stage Loading:
+javascript
+
+const LoadingState = {
+  IDLE: 'idle',
+  PENDING: 'pending',
+  SUCCESS: 'success',
+  ERROR: 'error'
+};
+
+function DataFetcher() {
+  const [state, setState] = useState(LoadingState.IDLE);
+  const [data, setData] = useState(null);
+  
+  const fetchData = async () => {
+    setState(LoadingState.PENDING);
+    
+    try {
+      const response = await fetch('/api/data');
+      if (!response.ok) throw new Error('Fetch failed');
+      
+      const result = await response.json();
+      setData(result);
+      setState(LoadingState.SUCCESS);
+      
+    } catch (error) {
+      setState(LoadingState.ERROR);
+    }
+  };
+  
+  // Render different UI based on state
+  return (
+    <div>
+      {state === LoadingState.PENDING && <Spinner />}
+      {state === LoadingState.ERROR && <ErrorRetry onRetry={fetchData} />}
+      {state === LoadingState.SUCCESS && <DataView data={data} />}
+    </div>
+  );
+}
+
+6. Response Handling
+
+Key Concepts:
+
+Parse JSON with .json()
+Handle empty responses
+Type checking
+
+eg // JSON Parsing
+const data = await response.json()
+
+// Empty Response Check
+if (!data || data.length === 0) {
+  showEmptyState()
+}
+
+
+Handle Different Status Codes:
+javascript
+
+async function handleResponse(response) {
+  switch (response.status) {
+    case 200: // OK
+      return await response.json();
+    
+    case 201: // Created
+      const newResource = await response.json();
+      const location = response.headers.get('Location');
+      return { ...newResource, location };
+    
+    case 204: // No Content
+      return null;
+    
+    case 400: // Bad Request
+      throw await parseValidationError(response);
+    
+    case 401: // Unauthorized
+      redirectToLogin();
+      throw new Error('Authentication required');
+    
+    case 403: // Forbidden
+      throw new Error('You lack permissions');
+    
+    case 404: // Not Found
+      throw new Error('Resource not found');
+    
+    case 429: // Too Many Requests
+      const retryAfter = response.headers.get('Retry-After');
+      throw new RateLimitError(retryAfter);
+    
+    default:
+      throw new Error(`Unexpected status: ${response.status}`);
+  }
+}
