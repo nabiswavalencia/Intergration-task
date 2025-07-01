@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Delivery System - Technical Flow</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .flow-container {
+            display: flex;
+            gap: 40px;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .flow-side {
+            flex: 1;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #e9ecef;
+        }
+        .flow-side h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+        .customer-side {
+            border-left: 5px solid #3498db;
+        }
+        .vendor-side {
+            border-left: 5px solid #e74c3c;
+        }
+        .step {
+            background: white;
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        .step:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .step-number {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: #3498db;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .vendor-side .step-number {
+            background: #e74c3c;
+        }
+        .step-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            margin-top: 5px;
+            font-size: 1.1em;
+        }
+        .step-description {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        .tech-component {
+            background: #e8f4f8;
+            color: #2980b9;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 500;
+            margin: 2px;
+            display: inline-block;
+        }
+        .center-arrow {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            color: #95a5a6;
+            z-index: 10;
+            background: white;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+        .legend h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .legend-item {
+            display: inline-block;
+            margin: 5px 10px;
+        }
+        @media (max-width: 768px) {
+            .flow-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .center-arrow {
+                position: static;
+                transform: rotate(90deg);
+                margin: 20px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Campus Delivery System Technical Flow</h1>
+        
+        <div class="flow-container">
+            <div class="center-arrow">⟷</div>
+            
+            <!-- Customer Side -->
+            <div class="flow-side customer-side">
+                <h2>👨‍🎓 Customer (Student) Side</h2>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Browse & Select Products</div>
+                    <div class="step-description">
+                        Student opens the app and browses available products from local vendors
+                        <br><span class="tech-component">React Native/React</span> <span class="tech-component">Supabase DB</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Place Order</div>
+                    <div class="step-description">
+                        Student adds items to cart and submits order through checkout
+                        <br><span class="tech-component">Frontend</span> <span class="tech-component">Supabase API</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Make Payment</div>
+                    <div class="step-description">
+                        Student enters phone number and confirms M-Pesa payment
+                        <br><span class="tech-component">Daraja API</span> <span class="tech-component">M-Pesa</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Track Order</div>
+                    <div class="step-description">
+                        Student receives real-time updates on order status (accepted, preparing, dispatched, delivered)
+                        <br><span class="tech-component">Supabase Realtime</span> <span class="tech-component">Push Notifications</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Receive Order</div>
+                    <div class="step-description">
+                        Student receives their order and can rate the experience
+                        <br><span class="tech-component">QR Code Scanner</span> <span class="tech-component">Rating System</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vendor Side -->
+            <div class="flow-side vendor-side">
+                <h2>🏪 Vendor Side</h2>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Manage Products</div>
+                    <div class="step-description">
+                        Vendor logs into dashboard and manages product listings, prices, and inventory
+                        <br><span class="tech-component">Vendor Dashboard</span> <span class="tech-component">Supabase Auth</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Receive Order Notification</div>
+                    <div class="step-description">
+                        Vendor gets instant notification when a new order is placed
+                        <br><span class="tech-component">Supabase Realtime</span> <span class="tech-component">Email/SMS</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Accept/Decline Order</div>
+                    <div class="step-description">
+                        Vendor reviews order details and confirms availability
+                        <br><span class="tech-component">Order Management</span> <span class="tech-component">Inventory Check</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Prepare Order</div>
+                    <div class="step-description">
+                        Vendor prepares the order and updates status to "Ready for Pickup"
+                        <br><span class="tech-component">Status Updates</span> <span class="tech-component">Real-time Sync</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Hand Over to Delivery</div>
+                    <div class="step-description">
+                        Vendor gives order to delivery person and tracks completion
+                        <br><span class="tech-component">Delivery Assignment</span> <span class="tech-component">Order Tracking</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <h3>🔧 Key Technologies Used:</h3>
+            <div class="legend-item"><span class="tech-component">Supabase</span> - Backend database and real-time updates</div>
+            <div class="legend-item"><span class="tech-component">Daraja API</span> - M-Pesa payment integration</div>
+            <div class="legend-item"><span class="tech-component">React/React Native</span> - Frontend web and mobile apps</div>
+            <div class="legend-item"><span class="tech-component">Supabase Auth</span> - User authentication and roles</div>
+            <div class="legend-item"><span class="tech-component">Supabase Realtime</span> - Live order tracking</div>
+        </div>
+    </div>
+</body>
+</html>

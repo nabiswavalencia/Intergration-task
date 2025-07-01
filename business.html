@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Model Canvas Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .canvas-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid;
+            transition: transform 0.3s ease;
+        }
+        .canvas-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-explanation {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .question {
+            background: #e8f4f8;
+            padding: 10px;
+            border-radius: 8px;
+            font-style: italic;
+            color: #2980b9;
+            margin-bottom: 15px;
+        }
+        .campus-example {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+        .example-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 8px;
+        }
+        .example-content {
+            color: #856404;
+            font-size: 0.95em;
+        }
+        
+        /* Color coding for different sections */
+        .key-partners { border-left-color: #e74c3c; }
+        .key-activities { border-left-color: #3498db; }
+        .key-resources { border-left-color: #2ecc71; }
+        .value-proposition { border-left-color: #f39c12; grid-column: 2; }
+        .customer-relationships { border-left-color: #9b59b6; }
+        .channels { border-left-color: #1abc9c; }
+        .customer-segments { border-left-color: #e67e22; }
+        .cost-structure { border-left-color: #34495e; grid-column: 1 / 3; }
+        .revenue-streams { border-left-color: #27ae60; grid-column: 3; }
+        
+        .icon {
+            font-size: 1.2em;
+        }
+        
+        @media (max-width: 768px) {
+            .canvas-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .cost-structure, .revenue-streams {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Business Model Canvas Explained</h1>
+        <p style="text-align: center; color: #666; font-size: 1.1em; margin-bottom: 30px;">
+            A visual framework to describe, design, and pivot your business model
+        </p>
+        
+        <div class="canvas-grid">
+            <!-- Key Partners -->
+            <div class="canvas-section key-partners">
+                <div class="section-title">
+                    <span class="icon">🤝</span>
+                    Key Partners
+                </div>
+                <div class="section-explanation">
+                    <strong>What it means:</strong> Who are the important people, companies, or organizations that help your business work?
+                </div>
+                <div class="question">
+                    "Who do we need to work with to make our business successful?"
+                </div>
+                <div class="campus-example">
+                    <div class="example-title">Campus Delivery Example:</div>
+                    <div class="example-content">
+                        • Campus vendors (food, stationery)<br>
+                        • University administration<br>
+                        • Delivery students<br>
+                        • M-Pesa/Safaricom<br>
+                        • Technology providers (Supabase)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Key Activities -->
+            <div class="canvas-section key-activities">
+                <div class="section-title">
+                    <span class="icon">⚡</span>
+                    Key Activities
+                </div>
+                <div class="section-explanation">
+                    <strong>What it means:</strong> The most important things your business must do to work properly.
+                </div>
+                <div class="question">
+                    "What are the main tasks we do every day to run our business?"
+                </div>
+                <div class="campus-example">
+                    <div class="example-title">Campus Delivery Example:</div>
+                    <div class="example-content">
+                        • Platform development & maintenance<br>
+                        • Vendor onboarding & support<br>
+                        • Order processing & coordination<br>
+                        • Customer service<br>
+                        • Marketing to students
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Key Resources -->
+            <div class="canvas-section key-resources">
+                <div class="section-title">
+                    <span class="icon">🏗️</span>
+                    Key Resources
+                </div>
+                <div class="section-explanation">
+                    <strong>What it means:</strong> The most important assets you need to make your business work.
+                </div>
+                <div class="question">
+                    "What do we absolutely need to have to run our business?"
+                </div>
+                <div class="campus-example">
+                    <div class="example-title">Campus Delivery Example:</div>
+                    <div class="example-content">
+                        • Mobile app & website<br>
+                        • Database (Supabase)<br>
+                        • Development team<br>
+                        • Brand reputation<br>
+                        • Campus relationships
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Value Proposition -->
+            <div class="canvas-section value-proposition">
+                <div class="section-title">
+                    <span class="icon">💎</span>
+                    Value Proposition
+                </div>
+                <div class="section-explanation">
+                    <strong>What it means:</strong> The unique benefit or solution you provide to customers. Why should they choose you?
+                </div>
+                <div class="question">
+                    "What problem do we solve? Why do customers choose us over others?"
+                </div>
+                <div class="campus-example">
+                    <div class="example-title">Campus Delivery Example:</div>
+                    <div class="example-content">
+                        <strong>For Students:</strong> Get local campus products delivered in minutes without leaving your room<br><br>
+                        <strong>For Vendors:</strong> Access to student customers without delivery hassle
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Customer Relationships -->
+            <div class="canvas-section customer-relationships">
+                <div class="section-title">
+                    <span class="icon">❤️</span>
+                    Customer Relationships
+                </div>
+                <div class="section-explanation">
+                    <strong>What it means:</strong> How you interact with and maintain relationships with your customers.
+                </div>
+                <div class="question">
+                    "How do we get, keep, and grow our customer relationships?"
+                </div>
+                <div class="campus-example">
+                    <div class="example-title">Campus Delivery Example:</div>
+                    <div class="example-content">
+                        • Self-service app platform<br>
+                        • 24/7 customer support chat<br>
+                        • Student community building<br>
+                        • Loyalty programs & discounts<br>
+                        • Social media engagement
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Channels -->
+            <div class="canvas-section channels">
+                <div class="section-title">
+                    <span class="icon">📱</span>
+                    Channels
+                </div>
+                <div class="section-explanation">
+                    <strong>What it means:</strong> How customers find you, buy from you, and receive your product/service.
+                </div>
+                <div class="question">
+                    "How do customers discover us and get our service?"
+                </div>
+                <div class="campus-example">
+                    <div class="example-title">Campus Delivery Example:</div>
+                    <div class="example-content">
+                        • Mobile app (iOS/Android)<br>
+                        • Website platform<br>
+                        • Campus notice boards<br>
+                        • Word-of-mouth referrals<br>
+                        • Social media marketing
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Customer Segments -->
+            <div class="canvas-section customer-segments">
+                <div class="section-title">
+                    <span class="icon">👥</span>
+                    Customer Segments
+                </div>
+                <div class="section-explanation">
+                    <strong>What it means:</strong> The different groups of people or organizations you serve.
+                </div>
+                <div class="question">
+                    "Who are our customers? What groups do they belong to?"
+                </div>
+                <div class="campus-example">
+                    <div class="example-title">Campus Delivery Example:</div>
+                    <div class="example-content">
+                        <strong>Primary:</strong> University students (18-25)<br>
+                        <strong>Secondary:</strong> Campus staff & faculty<br>
+                        <strong>Service Users:</strong> Students needing services (laundry, repairs)<br>
+                        <strong>Business Side:</strong> Campus vendors
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cost Structure -->
+            <div class="canvas-section cost-structure">
+                <div class="section-title">
+                    <span class="icon">💸</span>
+                    Cost Structure
+                </div>
+                <div class="section-explanation">
+                    <strong>What it means:</strong> All the expenses and costs required to run your business.
+                </div>
+                <div class="question">
+                    "What does it cost us to run this business? What are our biggest expenses?"
+                </div>
+                <div class="campus-example">
+                    <div class="example-title">Campus Delivery Example:</div>
+                    <div class="example-content">
+                        • Development team salaries<br>
+                        • Platform hosting (Supabase)<br>
+                        • Marketing & advertising<br>
+                        • Payment processing fees<br>
+                        • Customer support costs<br>
+                        • Legal & administrative costs
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Revenue Streams -->
+            <div class="canvas-section revenue-streams">
+                <div class="section-title">
+                    <span class="icon">💰</span>
+                    Revenue Streams
+                </div>
+                <div class="section-explanation">
+                    <strong>What it means:</strong> All the ways your business makes money from customers.
+                </div>
+                <div class="question">
+                    "How do we make money? What do customers pay us for?"
+                </div>
+                <div class="campus-example">
+                    <div class="example-title">Campus Delivery Example:</div>
+                    <div class="example-content">
+                        • <strong>Commission:</strong> 8-12% from each vendor sale<br>
+                        • <strong>Delivery fees:</strong> KSh 50-100 per order<br>
+                        • <strong>Premium listings:</strong> Vendors pay for featured spots<br>
+                        • <strong>Service fees:</strong> Commission on service bookings
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; margin-top: 30px;">
+            <h3 style="color: #27ae60; margin-bottom: 15px;">💡 Pro Tip for Your Presentation:</h3>
+            <p style="color: #2c5530; margin: 0;">
+                Start with your <strong>Value Proposition</strong> (the problem you solve), then explain your <strong>Customer Segments</strong> (who you serve), 
+                followed by your <strong>Revenue Streams</strong> (how you make money). This logical flow makes it easy for evaluators to understand your business!
+            </p>
+        </div>
+    </div>
+</body>
+</html>
